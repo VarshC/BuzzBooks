@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.1.0/fabric.min.js" integrity="sha512-T9uV3LxV54oKVYSwORGeHdJ1Ti0WcQvDjAaTvMS6+qfrI5ZRzwxfXVzr7fqodTjfZ6wtbreT5A+65ykwbp4DOw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js" integrity="sha512-Meww2sXqNHxI1+5Dyh/9KAtvI9RZSA4c1K2k5iL02oiPO/RH3Q30L3M1albtqMg50u4gRTYdV4EXOQqXEI336A==" crossorigin="anonymous"></script>
+    <script src="character.js"></script>
+    <title></title>
+    <style>
+      #choose-things {
+        width: 50%;
+        height: 100%;
+        overflow-y: scroll;
+        outline: 1px solid red;
+        display: inline-block;
+      }
+      html, body {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="height:100%;display:flex;">
+      <div id="display-things" style="width:50%;display:inline-block;">
+        <ul>
+          <li class="bar"><a href="dash.html">Home</a></li>
+          <li class="bar"><a href="bookshelf.html">Bookshelf</a></li>
+          <li class="bar"><a href="character.html">Profile</a></li>
+        </ul>
+        <canvas id="avatar" style="width:100%;height:75%;outline:1px solid blue;display:block;"></canvas>
+        <div style="width:100%">
+          <h1 id="name"></h1>
+        </div>
+      </div>
+      <div id="choose-things">
+        <div id="slot-select" style="outline:1px solid green;width:100%">
+          <img id="chest-select" style="width:100px;height:100px;background:url(slot-sprites.png) 0 0"/>
+          <img id="legs-select" style="width:100px;height:100px;background:url(slot-sprites.png) -100px 0"/>
+          <img id="feet-select" style="width:100px;height:100px;background:url(slot-sprites.png) -200px 0"/>
+          <img id="other-select" style="width:100px;height:100px;background:url(slot-sprites.png) -300px 0"/>
+        </div>
+        <div id="item-select" style="width:100%; display:flex;"></div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      let c, loadout = {
+        chest:null,
+        legs:null,
+        feet:null,
+        other:null
+      };
+      function addElement(element) {
+        c.add(element);
+      }
+
+      $(function() {
+        c = new fabric.Canvas('avatar', {
+          width: $('#avatar').width(),
+          height: $('#avatar').height()
+        });
+        let head = new fabric.Rect({left:90, top:20, width:70, height:70});
+        let body = new fabric.Rect({left:75, top:90, width:100, height:150});
+        let larm = new fabric.Rect({left:35, top:90, width:40, height:200});
+        let rarm = new fabric.Rect({left:175, top:90, width:40, height:200});
+        let lleg = new fabric.Rect({left:75, top:240, width:50, height:200});
+        let rleg = new fabric.Rect({left:125, top:240, width:50, height:200});
+        let a = new fabric.Group([head, body, larm, rarm, lleg, rleg]);
+        a.set('selectable', false);
+        c.add(a);
+
+        $(window).resize(function() {
+          c.setWidth($('#choose-things').width());
+          c.setHeight($('#display-things').height() * 0.75);
+        });
+
+
+        let selections = ['#chest-select', '#legs-select', '#feet-select', '#other-select'];
+        for (let s of selections) {
+          $(s).click(function() {
+            let options = '';
+            for (let e of getCustomizable(42, s)) {
+              options += `<button onclick="addElement(${e.graphic})">${e.name}</button><br>`;
+            }
+            $('#item-select').html(options);
+          });
+        }
+        $(selections[0]).click();
+
+        let user = getUserData(42);
+        $("#name").text(user.name);
+      });
+    </script>
+  </body>
+</html>

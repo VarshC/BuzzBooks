@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Book List</title>
+    <link href="bookshelf.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <script src="../bookshelf.js"></script>
+    <ul>
+      <li class="bar"><a href="dash.html">Home</a></li>
+      <li class="bar"><a href="bookshelf.html">Bookshelf</a></li>
+      <li class="bar"><a href="character.html">Profile</a></li>
+    </ul>
+	<h1> Bookshelf </h1>
+
+	<table id = "bookList" rowspan = "1">
+		<tr>
+			<td> Book Title </td>
+			<td> Author </td>
+			<td> Date </td>
+			<td> Rating </td>
+		</tr>
+	</table>
+
+	<div class="entryForm">
+		<h3>
+			Add New Entry:
+		</h3>
+
+		<form name="form" id="form" action="{{url_for('handle_data')}}">
+			<table>
+				<tr>
+					<td>
+						Book Title:
+					</td>
+					<td>
+						<input id="title" type="text" name="title" required placeholder="Book Title">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Author:
+					</td>
+					<td>
+						<input id="author" type ="text" name="author" required placeholder="Author Name">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Date:
+					</td>
+					<td>
+						 <input id="date" type="date" name="date" class="form-control" required placeholder="Date">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Rating:
+					</td>
+					<td>
+						<input id="rating" type="number" max="5" min="0" name="rating" required placeholder="5/5">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Review:
+					</td>
+					<td>
+						<textarea id="review" type="textarea"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="button" value="Add New Entry" name="submit" onclick="processFormData()"/>
+					</td>
+					<td>
+
+					</td>
+				</tr>
+		</form>
+	</div>
+
+  </body>
+</html>
